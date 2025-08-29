@@ -1,5 +1,5 @@
-import './index.css';
-import moviesData from './data.json';
+require('./index.css');
+const moviesData = require('./data.json');
 
 class MovieTable {
   constructor(data) {
