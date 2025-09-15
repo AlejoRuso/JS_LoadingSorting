@@ -8,9 +8,7 @@
     "build": "webpack --mode=production",
     "start": "webpack serve --mode=development --open",
     "lint": "eslint src/",
-    "lint:fix": "eslint src/ --fix",
-    "test": "jest",
-    "deploy": "gh-pages -d dist"
+    "lint:fix": "eslint src/ --fix"
   },
   "keywords": [],
   "author": "",

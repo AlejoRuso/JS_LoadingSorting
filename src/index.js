@@ -35,32 +35,38 @@ class MovieTable {
     this.tbody = document.createElement('tbody');
     
     const headerRow = document.createElement('tr');
-    ['id', 'title', 'year', 'imdb'].forEach(key => {
+    const headers = ['id', 'title', 'year', 'imdb'];
+    
+    // Используем map и append для создания заголовков
+    const headerCells = headers.map(key => {
       const th = document.createElement('th');
       th.textContent = this.getHeaderText(key);
-      headerRow.appendChild(th);
+      return th;
     });
     
-    this.thead.appendChild(headerRow);
-    this.table.appendChild(this.thead);
-    this.table.appendChild(this.tbody);
-    this.container.appendChild(this.table);
+    headerRow.append(...headerCells);
+    this.thead.append(headerRow);
+    this.table.append(this.thead, this.tbody);
+    this.container.append(this.table);
     
-    document.body.appendChild(this.container);
+    document.body.append(this.container);
   }
 
   getHeaderText(key) {
     const texts = {
-      id: '#',
+      id: 'ID',
       title: 'Название',
       year: 'Год',
       imdb: 'IMDb'
     };
-    return texts[key] || key;
+    return texts[key];
   }
 
   renderTable() {
     this.tbody.innerHTML = '';
+    
+    // Используем map и фрагмент для эффективного добавления строк
+    const fragment = document.createDocumentFragment();
     
     this.data.forEach(movie => {
       const row = document.createElement('tr');
@@ -71,9 +77,9 @@ class MovieTable {
       row.dataset.year = movie.year;
       row.dataset.imdb = movie.imdb;
       
-      // Создаем ячейки
+      // Создаем ячейки с использованием append
       const idCell = document.createElement('td');
-      idCell.textContent = `#${movie.id}`;
+      idCell.textContent = movie.id; // Просто ID без #
       
       const titleCell = document.createElement('td');
       titleCell.textContent = movie.title;
@@ -84,13 +90,12 @@ class MovieTable {
       const imdbCell = document.createElement('td');
       imdbCell.textContent = `imdb: ${movie.imdb.toFixed(2)}`;
       
-      row.appendChild(idCell);
-      row.appendChild(titleCell);
-      row.appendChild(yearCell);
-      row.appendChild(imdbCell);
-      
-      this.tbody.appendChild(row);
+      // Добавляем все ячейки за один вызов
+      row.append(idCell, titleCell, yearCell, imdbCell);
+      fragment.append(row);
     });
+    
+    this.tbody.append(fragment);
   }
 
   sortTable() {
@@ -106,8 +111,8 @@ class MovieTable {
       
       // Получаем значения из data-атрибутов
       if (key === 'id' || key === 'year') {
-        valueA = parseInt(a.dataset[key]);
-        valueB = parseInt(b.dataset[key]);
+        valueA = parseInt(a.dataset[key], 10);
+        valueB = parseInt(b.dataset[key], 10);
       } else if (key === 'imdb') {
         valueA = parseFloat(a.dataset[key]);
         valueB = parseFloat(b.dataset[key]);
@@ -128,7 +133,7 @@ class MovieTable {
     
     // Очищаем таблицу и добавляем отсортированные строки
     this.tbody.innerHTML = '';
-    rows.forEach(row => this.tbody.appendChild(row));
+    this.tbody.append(...rows);
     
     // Обновляем заголовки таблицы
     this.updateHeaderArrow(key, direction);
