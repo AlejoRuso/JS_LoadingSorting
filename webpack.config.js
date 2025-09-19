@@ -7,7 +7,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '/', // Добавьте эту строку
+    publicPath: '/JS_LoadingSorting/'
   },
   module: {
     rules: [
