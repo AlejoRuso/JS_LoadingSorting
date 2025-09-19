@@ -4,11 +4,21 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -22,26 +32,14 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: Verify build
-        run: |
-          ls -la dist/
-          echo "Contents of dist:"
-          find dist/ -type f -exec echo {} \;
-          # Проверяем наличие обязательных файлов
-          if [ ! -f "dist/index.html" ]; then
-            echo "ERROR: index.html not found in dist/"
-            exit 1
-          fi
-          if [ ! -f "dist/bundle.js" ]; then
-            echo "ERROR: bundle.js not found in dist/"
-            exit 1
-          fi
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
         
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          enable_jekyll: false
-          force_orphan: true
-          cname:
+          path: './dist'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
