@@ -27,6 +27,15 @@ jobs:
           ls -la dist/
           echo "Contents of dist:"
           find dist/ -type f -exec echo {} \;
+          # Проверяем наличие обязательных файлов
+          if [ ! -f "dist/index.html" ]; then
+            echo "ERROR: index.html not found in dist/"
+            exit 1
+          fi
+          if [ ! -f "dist/bundle.js" ]; then
+            echo "ERROR: bundle.js not found in dist/"
+            exit 1
+          fi
         
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
@@ -35,3 +44,4 @@ jobs:
           publish_dir: ./dist
           enable_jekyll: false
           force_orphan: true
+          cname:

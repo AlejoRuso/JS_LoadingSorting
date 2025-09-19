@@ -5,7 +5,7 @@
   "main": "index.js",
   "homepage": "https://AlejoRuso.github.io/JS_LoadingSorting",
   "scripts": {
-    "build": "webpack --mode=production",
+    "build": "webpack --mode production",
     "start": "webpack serve --mode=development --open",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix"

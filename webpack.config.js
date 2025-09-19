@@ -7,7 +7,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '/JS_LoadingSorting/'
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -28,6 +28,9 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
+        generator: {
+          filename: 'images/[hash][ext][query]'
+        },
       },
       {
         test: /\.json$/,
@@ -39,8 +42,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Movie Table',
-      template: './src/index.html' // Создайте этот файл
+      template: './src/index.html',
+      filename: 'index.html'
     }),
   ],
-  mode: 'development',
+  mode: 'production',
 };
