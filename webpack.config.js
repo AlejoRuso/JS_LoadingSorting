@@ -7,6 +7,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    publicPath: '/', // Добавьте эту строку
   },
   module: {
     rules: [
@@ -32,12 +33,13 @@ module.exports = {
         test: /\.json$/,
         type: 'javascript/auto',
         use: 'json-loader'
-    },
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Movie Table',
+      template: './src/index.html' // Создайте этот файл
     }),
   ],
   mode: 'development',
