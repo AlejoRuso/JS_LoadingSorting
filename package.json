@@ -2,6 +2,7 @@
   "name": "3.loadingsorting",
   "version": "1.0.0",
   "description": "",
+  "license": "MIT",
   "main": "index.js",
   "homepage": "https://AlejoRuso.github.io/JS_LoadingSorting",
   "scripts": {
@@ -12,7 +13,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
     "@babel/core": "^7.28.3",
